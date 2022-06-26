@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://CameraController.gd" type="Script" id=1]
+[ext_resource path="res://PlayerControl.gd" type="Script" id=2]
+[ext_resource path="res://TileMapController.gd" type="Script" id=3]
+[ext_resource path="res://tileset#2.png" type="Texture" id=4]
+[ext_resource path="res://new_tileset.tres" type="TileSet" id=5]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "walk"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pivot/Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -5 ), Vector2( 0, 0 ) ]
+}
+
+[node name="Main" type="Node2D"]
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( -2, 1 )
+input_pickable = true
+script = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Navigation2D"]
+mode = 1
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 32, 16 )
+cell_y_sort = true
+format = 1
+tile_data = PoolIntArray( -524290, 1, 0, -524289, 1, 0, -589824, 1, 0, -458755, 1, 0, -458754, 1, 0, -458753, 1, 0, -524288, 1, 0, -524287, 1, 0, -393219, 1, 0, -393217, 1, 0, -458752, 1, 0, -458751, 1, 0, -327684, 1, 0, -327683, 1, 0, -393214, 1, 0, -262148, 1, 0, -262147, 1, 0, -327678, 1, 0, -196612, 1, 0, -262144, 1, 0, -262142, 1, 0, -131076, 1, 0, -131075, 1, 0, -131074, 1, 0, -131073, 1, 0, -196606, 1, 0, -65543, 1, 0, -65542, 1, 0, -65541, 1, 0, -65540, 1, 0, -65537, 1, 0, -131071, 1, 0, -131070, 1, 0, -7, 1, 0, -6, 1, 0, -5, 1, 0, -4, 1, 0, -2, 1, 0, -1, 1, 0, -65536, 1, 0, -65535, 1, 0, -65534, 1, 0, -65533, 1, 0, -65532, 1, 0, 65528, 1, 0, 65532, 1, 0, 65533, 1, 0, 65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 7, 1, 0, 8, 1, 0, 131065, 1, 0, 131069, 1, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65543, 1, 0, 65544, 1, 0, 196601, 1, 0, 196604, 1, 0, 196605, 1, 0, 196606, 1, 0, 196607, 1, 0, 131072, 1, 0, 131073, 1, 0, 131074, 1, 0, 131075, 1, 0, 131076, 1, 0, 131077, 1, 0, 131078, 1, 0, 131079, 1, 0, 131080, 1, 0, 262138, 1, 0, 262139, 1, 0, 262140, 1, 0, 262142, 1, 0, 196608, 1, 0, 196609, 1, 0, 196610, 1, 0, 196611, 1, 0, 196612, 1, 0, 196613, 1, 0, 196614, 1, 0, 196615, 1, 0, 327679, 1, 0, 262144, 1, 0, 262145, 1, 0, 262146, 1, 0, 262147, 1, 0, 262148, 1, 0, 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 327681, 1, 0, 327682, 1, 0, 327683, 1, 0, 327685, 1, 0, 327686, 1, 0, 393216, 1, 0, 393217, 1, 0, 393218, 1, 0, 393219, 1, 0, 393220, 1, 0, 458752, 1, 0, 458753, 1, 0, 458754, 1, 0, 589823, 1, 0 )
+script = ExtResource( 3 )
+
+[node name="Player" type="Node2D" parent="Navigation2D/TileMap"]
+script = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="Navigation2D/TileMap/Player"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Navigation2D/TileMap/Player"]
+anims/RESET = SubResource( 1 )
+anims/walk = SubResource( 3 )
+
+[node name="Pivot" type="Position2D" parent="Navigation2D/TileMap/Player"]
+__meta__ = {
+"_gizmo_extents_": 0.0
+}
+
+[node name="Sprite" type="Sprite" parent="Navigation2D/TileMap/Player/Pivot"]
+position = Vector2( 0, 2 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 105, 7, 14, 20 )
+
+[connection signal="tile_pressed" from="Navigation2D/TileMap" to="Navigation2D/TileMap/Player" method="_on_TileMap_tile_pressed"]
+[connection signal="moved" from="Navigation2D/TileMap/Player" to="Navigation2D/TileMap" method="_on_Player_moved"]
